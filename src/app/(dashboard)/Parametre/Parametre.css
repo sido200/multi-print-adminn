@@ -1,0 +1,73 @@
+.dahsboard-parametre{
+  display: flex;
+  flex-direction: column;
+   width: 83%;
+   padding: 50px 50px;
+   gap: 5px;
+   overflow-y: auto !important;
+   height: 100vh;
+}
+.dahsboard-parametre>p{
+  color: rgba(103, 103, 108, 1);
+  font-size: 1.3rem;
+  margin-bottom: 60px;
+ 
+ }
+ .dahsboard-parametre form{
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+ }
+ .info-perso{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+ }
+ .info-perso input{
+ width: 44%;
+ border: rgba(0, 0, 0, 0.5) 1px solid;
+ border-radius: 8px;
+ padding: 10px;
+ height: 50px;
+ position: relative;
+ }
+ .input-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+ }
+ .secu input:first-of-type{
+  margin-bottom: 20px;
+ 
+ }
+ .info-perso input::placeholder{
+  color: black !important;
+  font-weight: 600;
+  font-size: 0.7rem;
+ position: absolute;
+ top: 7px;
+ left: 10px;
+ 
+ }
+ .dahsboard-parametre>button{
+  display: flex;
+  flex-direction: column-reverse;
+  background-color: rgba(250, 191, 2, 1);
+  color: white;
+  padding: 10px;
+  width: 170px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+
+ justify-content: center;
+ align-items: center;
+ position: absolute;
+ bottom: 50px;
+ right: 50px;
+ }

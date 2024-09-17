@@ -1,0 +1,46 @@
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  height: 70%;
+ }
+ .center p{
+  color: rgba(103, 103, 108, 1);
+  font-size: 1.2rem;
+  text-align: center;
+ }
+ .center button{
+  display: flex;
+ 
+  background-color: rgba(250, 191, 2, 1);
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+ justify-content: center;
+ align-items: center;
+ padding: 15px 0;
+ }
+ .center a{
+  display: flex;
+ 
+
+
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 20%;
+ justify-content: center;
+ align-items: center;
+
+ }

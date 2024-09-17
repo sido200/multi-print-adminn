@@ -1,0 +1,15 @@
+.dahsboard-analytiques{
+  display: flex;
+  flex-direction: column;
+   width: 83%;
+   padding: 50px 50px;
+   gap: 5px;
+   overflow-y: auto !important;
+   height: 100vh;
+}
+.dahsboard-analytiques>p{
+  color: rgba(103, 103, 108, 1);
+  font-size: 1.3rem;
+ 
+ }
+ 
