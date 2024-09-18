@@ -77,6 +77,10 @@ font-size: 0.8rem;
 margin-bottom: 10px;
 cursor: pointer;
 }
+.error{
+  margin: 0%;
+  flex-direction: row !important;
+}
 .right-login button{
   background-color: rgba(250, 191, 2, 1);
   color: white;

@@ -6,7 +6,9 @@ import Popover from '@mui/material/Popover';
 import { HiDotsVertical } from "react-icons/hi";
 import { useState } from "react";
 import { FiTrash2 ,FiEdit3 } from "react-icons/fi";
-export default function CardProduct({handleOpen}) {
+export default function CardProduct({product,handleOpen}) {
+  console.log(product);
+  
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -43,7 +45,7 @@ export default function CardProduct({handleOpen}) {
       <HiDotsVertical />
       </div>
     <div className="img">  <Image src={productImage} alt="product" /></div>
-      <h3>Product Name</h3>
+      <h3>{product.titlefr}</h3>
       <h4>Type</h4>
     </div>
  

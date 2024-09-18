@@ -13,7 +13,7 @@ const schema = yup.object().shape({
 });
 
 export default function Home() {
-  const navigate=useRouter() 
+  const router = useRouter(); 
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -21,11 +21,13 @@ export default function Home() {
 
   
   const onSubmit = (data) => {
+   
+   
     console.log(data);
     
     loginUser(data)
       .then((res) => {
-        navigate("/DashboardHome");
+        router.push("/DashboardHome");
         console.log(res);
       
     
