@@ -38,6 +38,7 @@ export default function SideNav() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const router = useRouter(); 
   const HandelLogout = () => {
     logoutUser()
@@ -65,6 +66,7 @@ export default function SideNav() {
             <button>Contacter l’équipe</button>
             <div className="action">
               <h4 onClick={handleClose}>Annuler</h4>
+
               <h4 onClick={HandelLogout}> Déconnexion</h4>
             </div>
           </div>
@@ -89,6 +91,11 @@ export default function SideNav() {
             <FiLayout /> Produit
           </li>
         </NavLink>
+        <NavLink href="/Categories">
+          <li>
+            <FiLayout /> Categories
+          </li>
+        </NavLink>
       </ul>
       <div className="sub-title">
         <h2>Service</h2>
@@ -107,12 +114,14 @@ export default function SideNav() {
         </NavLink>
         <NavLink href="/Commande">
           <li>
+
             <MdChecklist /> Commendes
+
           </li>
         </NavLink>
       </ul>
       <div className="sub-title">
-        <h2>Paramètre</h2>
+        <h2>Paramètres</h2>
         <hr />
       </div>
       <ul>
@@ -124,7 +133,7 @@ export default function SideNav() {
         </NavLink>
         <NavLink href="/Parametre">
           <li>
-            <FiBookOpen /> Paramètre
+            <FiBookOpen /> Paramètres
           </li>
         </NavLink>
         <NavLink href="/Admin">
