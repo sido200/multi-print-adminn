@@ -17,12 +17,29 @@ const style = {
   display: "flex",
   gap: 5,
 };
-import { useState } from "react";
+import { useEffect, useState } from 'react';
 import { IoClose } from "react-icons/io5";
+import { getProducts } from "@/app/services/produits";
 
 export default function page() {
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+
+ useEffect(() => {
+  getProducts().then((res)=>{
+   
+    setProducts(res.data.products)
+    
+
+  }).catch((err)=>{
+
+console.error(err);
+
+  })
+
+ }, [])
+ 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -81,17 +98,15 @@ export default function page() {
           Ajouter un produit
         </button>
 
-        <div className="grid-product">
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-          <CardProduct handleOpen={handleOpen} />
-        </div>
-      </div>
-    </>
-  );
+
+   <div className="grid-product">
+    {products?.map((product,index)=>(
+      <CardProduct key={index} product={product} handleOpen={handleOpen}/>
+    ))}
+
+
+   </div>
+   </div>
+   </>
+  )
 }

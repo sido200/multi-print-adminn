@@ -30,11 +30,26 @@ const style = {
   gap: 5,
 };
 import { useState } from "react";
+import { logoutUser } from "@/app/services/auth";
+import { useRouter } from "next/navigation";
+
 
 export default function SideNav() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const router = useRouter(); 
+  const HandelLogout = () => {
+    logoutUser()
+      .then((res) => {
+        router.push("/");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <nav className="nav-bar">
       <Modal
@@ -51,7 +66,8 @@ export default function SideNav() {
             <button>Contacter l’équipe</button>
             <div className="action">
               <h4 onClick={handleClose}>Annuler</h4>
-              <h4>Déconnexion</h4>
+
+              <h4 onClick={HandelLogout}> Déconnexion</h4>
             </div>
           </div>
         </Box>
@@ -98,7 +114,9 @@ export default function SideNav() {
         </NavLink>
         <NavLink href="/Commande">
           <li>
-            <MdChecklist /> Commandes
+
+            <MdChecklist /> Commendes
+
           </li>
         </NavLink>
       </ul>
