@@ -6,7 +6,7 @@ export default function page() {
     <div className="dahsboard-lock">
       <h1>Design</h1>
       <p>
-      Crée vos design directement dans la <br /> platform
+      Créer vos design directement dans la <br /> platforme
       </p>
       <Contacter/>
     </div>
