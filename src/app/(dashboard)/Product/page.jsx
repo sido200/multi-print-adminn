@@ -2,8 +2,16 @@
 import CardProduct from "@/components/CardProduct/CardProduct";
 import "./Product.css";
 import Modal from "@mui/material/Modal";
+"use client";
+import CardProduct from "@/components/CardProduct/CardProduct";
+import "./Product.css";
+import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -13,32 +21,111 @@ const style = {
   bgcolor: "background.paper",
   border: "white",
   borderRadius: 6,
+  height: 666,
+  bgcolor: "background.paper",
+  border: "white",
+  borderRadius: 6,
   p: 6,
+  display: "flex",
+  gap: 5,
   display: "flex",
   gap: 5,
 };
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { getProducts } from "@/app/services/produits";
+import { createProduct, deleteProducts, getProducts } from "@/app/services/produits";
+import { getCategorie } from "@/app/services/categorie";
+import { useForm } from "react-hook-form";
 
 export default function page() {
+
+  //stat
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
-
+  const [categories, setCategories] = useState([]);
+  const [activeCat, setActiveCat] = useState("");
+  //form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  //function
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  //fatch
+const fatchProduct=()=>{
+  getProducts()
+  .then((res) => {
+    setProducts(res.data.products);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+}
+//delete
+const handledeleteProduct=(id)=>{
+  
+  
+  deleteProducts(id)
+  .then(() => {
+    fatchProduct()
+   console.log("deleted");
+   
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+}
+// call api
   useEffect(() => {
-    getProducts()
+    fatchProduct()
+  }, []);
+  useEffect(() => {
+    getCategorie()
       .then((res) => {
-        setProducts(res.data.products);
+        setCategories(res.data.categories);
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+// create
+  const onSubmit = (data) => {
+    const formData = new FormData();
+console.log('====================================');
+console.log(data.files);
+console.log('====================================');
+    // Append all form data fields
+    formData.append("titlefr", data.titlefr);
+    formData.append("titleen", data.titleen);
+    formData.append("titlear", data.titlear);
+    formData.append("descfr", data.descfr);
+    formData.append("descen", data.descen);
+    formData.append("descar", data.descar);
+    formData.append("category", activeCat);
+
+    if (data.files && data.files.length > 0) {
+      Array.from(data.files).forEach((file) => {
+        formData.append("images", file);
+      });
+    }
+
+    createProduct(formData)
+      .then((res) => {
+        handleClose()
+        fatchProduct()
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+
   return (
     <>
+      <Modal
       <Modal
         open={open}
         onClose={handleClose}
@@ -50,58 +137,87 @@ export default function page() {
           <div className="left-modal">
             <h3>Ajouter des images</h3>
             <div className="file2">
-              <input type="file" />
-              <h3>Drag & drop l’image png du produit</h3>
+            <input type="file" multiple {...register("files")} />
+
+              <h3>Drag & drop l’image png du produite</h3>
               <h4>Drag ou télécharger </h4>
             </div>
             <h3>Categorie de produit</h3>
             <div className="categorie">
-              <div className="cat">Etiquettes bouteille d’eau</div>
-              <div className="cat">Etiquettes boite</div>
-              <div className="cat">Etiquettes conserve</div>
-              <div className="cat">Etiquettes t-shirt</div>
-              <div className="cat active-cat">Etiquettes wassim</div>
+              {categories.map((categorie, index) => (
+                <div
+                  key={index}
+                  className={
+                    activeCat == categorie._id ? "cat active-cat" : "cat "
+                  }
+                  onClick={() => setActiveCat(categorie._id)}
+                >
+                  {categorie.titlefr}
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="right-modal">
             <h3>Information générale</h3>
-            <form
-              action="
-          "
-            >
-              <input type="text" placeholder="Titre du produit en Français" />
-              <textarea
-                type="text"
-                className="desc2"
-                placeholder="Description du produit en Français"
-              />
-              <hr style={{ width: "80%" }} />
-              <input type="text" placeholder="Titre du produit en Anglais" />
-              <textarea
-                type="text"
-                className="desc2"
-                placeholder="Description du produit en Anglais"
-              />
-              <hr />
-              <input type="text" placeholder="Titre du produit en Arabe" />
-              <textarea
-                type="text"
-                className="desc2"
-                placeholder="Description du produit en Arabe"
-              />
-            </form>
 
-            <div className="btn">
-              <button>créer le slide & publier</button>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input
+
+                type="text"
+                placeholder="Titre du produit fr"
+                {...register("titlefr", { required: "Title is required" })}
+              />
+              {errors.titleFr && <p>{errors.titleFr.message}</p>}
+
+              <input
+                type="text"
+                placeholder="Titre du produit en"
+                {...register("titleen", { required: true })}
+              />
+              {errors.titleEn && <p>This field is required</p>}
+
+              <input
+                type="text"
+                placeholder="Titre du produit ar"
+                {...register("titlear", { required: true })}
+              />
+              {errors.titleAr && <p>This field is required</p>}
+
+              <textarea
+                className="desc2"
+
+                placeholder="Description du produit fr"
+                {...register("descfr", { required: true })}
+
+              />
+              {errors.descFr && <p>This field is required</p>}
+
+              <textarea
+                className="desc2"
+                placeholder="Description du produit en"
+                {...register("descen", { required: true })}
+              />
+              {errors.descEn && <p>This field is required</p>}
+
+              <textarea
+                className="desc2"
+                placeholder="Description du produit ar"
+                {...register("descar", { required: true })}
+              />
+              {errors.descAr && <p>This field is required</p>}
+
+              <div className="btn">
+                <button type="submit">Crée le slide & publier</button>
+              </div>
+            </form>
           </div>
         </Box>
       </Modal>
       <div className="dahsboard-Product">
         <h1>Produits</h1>
         <p>
-          Ajouter, supprimer ou modifier vos <br /> produits
+          Ajouter supprimer ou modifier vos <br /> produits
         </p>
         <button className="add-product" onClick={handleOpen}>
           Ajouter un produit
@@ -113,6 +229,10 @@ export default function page() {
               key={index}
               product={product}
               handleOpen={handleOpen}
+
+              deleteProduct={handledeleteProduct}
+              fatchProduct={fatchProduct}
+
             />
           ))}
         </div>

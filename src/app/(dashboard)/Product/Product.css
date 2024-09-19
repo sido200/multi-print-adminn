@@ -74,8 +74,8 @@
   border-radius: 8px;
   width: 100%;
   padding: 15px;
-  height: 89px;
-  justify-content: flex-start;
+  height: 90px;
+  justify-content:flex-start;
   resize: none;
 }
 .file2 input {
@@ -128,48 +128,53 @@
 }
 .file2 h4 {
   font-size: 0.9rem;
-  color: rgba(0, 142, 255, 1);
-}
-.btn {
-  display: flex;
-  flex-direction: row-reverse;
-  width: 100%;
-}
-.btn button {
-  display: flex;
-  flex-direction: column-reverse;
-  background-color: rgba(250, 191, 2, 1);
-  color: white;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  width: 40%;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-.categorie {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.cat {
-  padding: 10px;
-  font-size: 1rem;
-  color: rgba(126, 126, 126, 1);
-  font-weight: 500;
-  background-color: rgba(221, 221, 221, 1);
-  border-radius: 6px;
-}
-.active-cat {
-  padding: 10px;
-  font-size: 1rem;
-  color: white;
-  font-weight: 500;
-  background-color: rgba(250, 191, 2, 1);
-}
+  color: 
+  rgba(0, 142, 255, 1);
+  
+  }
+  .btn{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+  }
+  .btn button{
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: rgba(250, 191, 2, 1);
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 40%;
+   justify-content: center;
+   align-items: center;
+   margin-top: 10px;
+  }
+  .categorie{
+    width: 100%;
+    display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+  }
+  .cat{
+    padding: 10px;
+    font-size: 1rem;
+    color: rgba(126, 126, 126, 1);
+    font-weight: 500;
+    background-color: rgba(221, 221, 221, 1);
+    border-radius: 6px;
+    cursor: pointer;
+
+  }
+  .active-cat{
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    background-color: rgba(250, 191, 2, 1);
+
+  }
