@@ -2,10 +2,6 @@
 import CardProduct from "@/components/CardProduct/CardProduct";
 import "./Product.css";
 import Modal from "@mui/material/Modal";
-"use client";
-import CardProduct from "@/components/CardProduct/CardProduct";
-import "./Product.css";
-import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 const style = {
   position: "absolute",
@@ -124,7 +120,7 @@ console.log('====================================');
   return (
     <>
       <Modal
-      <Modal
+ 
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"

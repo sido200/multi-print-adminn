@@ -164,8 +164,11 @@ width: 100%;
   color: white;
   font-weight: 400;
   text-align: start;
- 
+
   text-align: justify;
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
 }
 .add-slide{
   background-color: rgba(126, 126, 126, 0.06);
@@ -316,7 +319,7 @@ cursor: pointer;
   border-radius: 8px;
   width: 100%;
   padding: 15px;
-  height: 100px;
+  height: 80px;
   justify-content:flex-start;
   resize: none;
 }
@@ -391,19 +394,24 @@ cursor: pointer;
     flex-direction: row-reverse;
     width: 100%;
   }
+  .position{
+    position: absolute;
+    bottom: 25px;
+    right: 20px;
+  }
   .btn button{
     display: flex;
     flex-direction: column-reverse;
     background-color: rgba(250, 191, 2, 1);
     color: white;
     padding: 10px;
-    width: 100%;
+ 
     border: none;
     border-radius: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
-    width: 40%;
+    width: 20%;
    justify-content: center;
    align-items: center;
   }

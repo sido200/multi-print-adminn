@@ -159,8 +159,10 @@ export default function page() {
                 <h3>Drag & drop l’image png du produit</h3>
                 <h4>Drag ou télécharger</h4>
               </div>
-
+              <div className="btn position">
               <button type="submit">Crée le slide & publier</button>
+            </div>
+             
             </form>
         </div>
     
@@ -200,9 +202,7 @@ export default function page() {
           </div>
        
 
-            <div className="btn">
-              <button>Créer le slide & publier</button>
-            </div>
+         
           </div>
         </Box>
       </Modal>
@@ -214,7 +214,7 @@ export default function page() {
     <div className="grid-slider">
       
  {pubs.map((pub,index)=>(
-     <div className='slider' key={index}>
+     <div className={`slider slider${pub.color}`} key={index}>
   
      <div
        className="left-slide"
