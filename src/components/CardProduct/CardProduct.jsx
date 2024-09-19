@@ -11,6 +11,7 @@ import { Box, Modal } from "@mui/material";
 import { IoClose } from "react-icons/io5";
 import { getCategorie } from "@/app/services/categorie";
 import { updateProduct } from "@/app/services/produits";
+import Swal from "sweetalert2";
 const style = {
   position: "absolute",
   top: "50%",
@@ -74,9 +75,18 @@ useEffect(() => {
       .then(() => {
         handleClose2()
         fatchProduct()
+        Swal.fire({
+          title: "Good job!",
+          text: "update Product successfully",
+          icon: "success"
+        });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
       });
   };
   

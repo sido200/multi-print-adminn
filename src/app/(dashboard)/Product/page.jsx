@@ -2,7 +2,7 @@
 import CardProduct from "@/components/CardProduct/CardProduct";
 import "./Product.css";
 import Modal from "@mui/material/Modal";
-import { Box } from "@mui/material";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,12 +26,14 @@ const style = {
   gap: 5,
   display: "flex",
   gap: 5,
+  zIndex:2
 };
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { createProduct, deleteProducts, getProducts } from "@/app/services/produits";
 import { getCategorie } from "@/app/services/categorie";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 export default function page() {
 
@@ -40,6 +42,8 @@ export default function page() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCat, setActiveCat] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   //form
   const {
     register,
@@ -51,6 +55,7 @@ export default function page() {
   const handleClose = () => setOpen(false);
   //fatch
 const fatchProduct=()=>{
+ 
   getProducts()
   .then((res) => {
     setProducts(res.data.products);
@@ -90,9 +95,7 @@ const handledeleteProduct=(id)=>{
 // create
   const onSubmit = (data) => {
     const formData = new FormData();
-console.log('====================================');
-console.log(data.files);
-console.log('====================================');
+    setIsLoading(true)
     // Append all form data fields
     formData.append("titlefr", data.titlefr);
     formData.append("titleen", data.titleen);
@@ -109,18 +112,37 @@ console.log('====================================');
     }
 
     createProduct(formData)
-      .then((res) => {
+      .then(() => {
+        
         handleClose()
         fatchProduct()
+        setIsLoading(false)
+        Swal.fire({
+          title: "Good job!",
+          text: "create Product successfully",
+          icon: "success"
+        });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        setIsLoading(false)
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
       });
   };
 
 
   return (
     <>
+        <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1000 }}
+        open={isLoading}
+      
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Modal
  
         open={open}

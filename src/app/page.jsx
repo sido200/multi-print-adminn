@@ -5,7 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import './globals.css';
 import { loginUser } from './services/auth';
 import { useRouter } from 'next/navigation';
+import useUserStore from '@/zustand/store';
+import { toast, ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 // Schéma de validation avec Yup
 const schema = yup.object().shape({
   email: yup.string().email("L'email est invalide").required("L'email est requis"),
@@ -14,6 +17,7 @@ const schema = yup.object().shape({
 
 export default function Home() {
   const router = useRouter(); 
+  const setUser = useUserStore((state) => state.setUser);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -28,20 +32,23 @@ export default function Home() {
     loginUser(data)
       .then((res) => {
         router.push("/DashboardHome");
-        console.log(res);
+        setUser(res.data.userinfos
+        )
+        toast.success("Connexion réussie !")
       
     
       })
       .catch((err) => {
        
-       
+        toast.error("erreur de Connexion  !")
         console.error(err);
       });
   };
 
 
 
-  return (
+  return (  <>
+  <ToastContainer />
     <div className="login">
       <div className="left-login">
     
@@ -64,6 +71,6 @@ export default function Home() {
           <button type="submit">Connexion</button>
         </form>
       </div>
-    </div>
+    </div></>
   );
 }

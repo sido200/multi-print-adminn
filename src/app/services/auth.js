@@ -10,3 +10,6 @@ export const loginUser = (data) => {
 export const logoutUser = () => {
   return axios.post(`${BASE_API_URL}/users/logout`);
 };
+export const updateUser = (id,data) => {
+  return axios.put(`${BASE_API_URL}/users/update/${id}`,data);
+};

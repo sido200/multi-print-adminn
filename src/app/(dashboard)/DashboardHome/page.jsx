@@ -25,6 +25,7 @@ const style = {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createPub, getpub } from '@/app/services/pub';
+import Swal from "sweetalert2";
 
 
 export default function page() {
@@ -85,12 +86,21 @@ export default function page() {
 
     createPub(formData)
       .then(() => {
-        handleClose()
-        fatchPub()
-      
+        handleClose();
+        fatchPub();
+        
+        Swal.fire({
+          title: "Good job!",
+          text: "create Pub successfully",
+          icon: "success"
+        });
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
       });
   };
   return (
