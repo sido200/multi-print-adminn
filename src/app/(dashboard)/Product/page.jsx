@@ -17,29 +17,24 @@ const style = {
   display: "flex",
   gap: 5,
 };
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { getProducts } from "@/app/services/produits";
 
 export default function page() {
-
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
 
- useEffect(() => {
-  getProducts().then((res)=>{
-   
-    setProducts(res.data.products)
-    
+  useEffect(() => {
+    getProducts()
+      .then((res) => {
+        setProducts(res.data.products);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
-  }).catch((err)=>{
-
-console.error(err);
-
-  })
-
- }, [])
- 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
@@ -75,11 +70,25 @@ console.error(err);
               action="
           "
             >
-              <input type="text" placeholder="Titre du produit" />
+              <input type="text" placeholder="Titre du produit en Français" />
               <textarea
                 type="text"
                 className="desc2"
-                placeholder="Description du produit"
+                placeholder="Description du produit en Français"
+              />
+              <hr style={{ width: "80%" }} />
+              <input type="text" placeholder="Titre du produit en Anglais" />
+              <textarea
+                type="text"
+                className="desc2"
+                placeholder="Description du produit en Anglais"
+              />
+              <hr />
+              <input type="text" placeholder="Titre du produit en Arabe" />
+              <textarea
+                type="text"
+                className="desc2"
+                placeholder="Description du produit en Arabe"
               />
             </form>
 
@@ -98,15 +107,16 @@ console.error(err);
           Ajouter un produit
         </button>
 
-
-   <div className="grid-product">
-    {products?.map((product,index)=>(
-      <CardProduct key={index} product={product} handleOpen={handleOpen}/>
-    ))}
-
-
-   </div>
-   </div>
-   </>
-  )
+        <div className="grid-product">
+          {products?.map((product, index) => (
+            <CardProduct
+              key={index}
+              product={product}
+              handleOpen={handleOpen}
+            />
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
