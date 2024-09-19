@@ -23,20 +23,27 @@ const style = {
   gap:5
  
 };
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { createPub, getpub } from '@/app/services/pub';
 
 
 export default function page() {
+  //stat
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () =>{ setOpen(false);  reset(); }// Reset form when modal closes
   const [title, setTitle] = useState('Title for the Products');
+  const [pubs, setPubs] = useState([]);
   const [description, setDescription] = useState(
     'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.'
   );
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+   
+  });
   const [image, setImage] = useState(produit); // Path to your initial image
-  const [color, setColor] = useState(1);
-
+  const [color, setColor] = useState("yowloz");
+//fimction
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -48,6 +55,46 @@ export default function page() {
       };
       reader.readAsDataURL(file);
     }
+  }
+  //fatch
+  const fatchPub=()=>{
+    getpub().then((res)=>{
+      setPubs(res.data.pubs)
+
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+  useEffect(() => {
+    fatchPub()
+  }, []);
+  
+  //create
+  const onSubmit = (data) => {
+    const formData = new FormData();
+
+    // Append all form data fields
+    formData.append("titlefr", data.titlefr);
+    formData.append("titleen", data.titleen);
+    formData.append("titlear", data.titlear);
+    formData.append("descriptionfr", data.descfr);
+    formData.append("descriptionen", data.descen);
+    formData.append("descriptionar", data.descar);
+    formData.append("color", color);
+
+    if (data.file && data.file[0]) {
+      formData.append("image", data.file[0]);
+    }
+
+    createPub(formData)
+      .then(() => {
+        handleClose()
+        fatchPub()
+      
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   return (
     <>
@@ -60,30 +107,64 @@ export default function page() {
       <Box sx={style}>
 <IoClose className='close' size={24} onClick={handleClose}/>
         <div className="left-modal">
-          <form action="
-          ">
-             <input
-              type="text"
-              placeholder='Titre du produit'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              className='desc'
-              placeholder='Description du produit'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <div className="file">
+        <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="input-title">
+                <input
+                  type="text"
+                  placeholder="Titre du produit (Français)"
+                  {...register('titlefr', { required: true })}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                {errors.titlefr && <span className="error">Ce champ est requis</span>}
+                
+                <input
+                  type="text"
+                  placeholder="Titre du produit (Anglais)"
+                  {...register('titleen')}
+                />
+              </div>
+              
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
+                type="text"
+                placeholder="Titre du produit (Arabe)"
+                {...register('titlear')}
               />
-         <h3>Drag & drop l’image png du produite</h3>
-              <h4 >Drag ou télécharger </h4>
-         </div>
-          </form>
+              
+              <div className="input-title">
+                <textarea
+                  className='desc'
+                  placeholder='Description du produit (Français)'
+                  {...register('descfr', { required: true })}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                {errors.descfr && <span className="error">Ce champ est requis</span>}
+                
+                <textarea
+                  className='desc'
+                  placeholder='Description du produit (Anglais)'
+                  {...register('descen')}
+                />
+              </div>
+
+              <textarea
+                className='desc'
+                placeholder='Description du produit (Arabe)'
+                {...register('descar')}
+              />
+
+              <div className="file">
+                <input
+                  type="file"
+                  accept="image/*"
+                  {...register('file')}
+                  onChange={handleFileChange}
+                />
+                <h3>Drag & drop l’image png du produit</h3>
+                <h4>Drag ou télécharger</h4>
+              </div>
+
+              <button type="submit">Crée le slide & publier</button>
+            </form>
         </div>
     
         <div className="right-modal">
@@ -114,10 +195,10 @@ export default function page() {
 
 </div>
           <div className="color">
-<div className="yellow" onClick={()=>setColor(1)}></div>
-<div className="bleu" onClick={()=>setColor(2)}></div>
-<div className="red" onClick={()=>setColor(3)}></div>
-<div className="green" onClick={()=>setColor(4)}></div>
+<div className="yellow" onClick={()=>setColor("yellow")}></div>
+<div className="bleu" onClick={()=>setColor("bleu")}></div>
+<div className="red" onClick={()=>setColor("red")}></div>
+<div className="green" onClick={()=>setColor("green")}></div>
 </div>
           </div>
        
@@ -135,90 +216,34 @@ export default function page() {
  
     <div className="grid-slider">
       
-    <div className='slider'>
+ {pubs.map((pub,index)=>(
+     <div className='slider' key={index}>
   
-  <div
-    className="left-slide"
-    style={{ backgroundSize: "cover", backgroundPosition: "center" }}
-  >
-    <h2>Title for the Products</h2>
-    <p>
-      In publishing and graphic design, Lorem ipsum is a placeholder text
-      commonly used to demonstrate the visual form of a document or a
-      typeface without relying on meaningful content. Lorem ipsum may be
-      used as a placeholder before the final copy is available.
-    </p>
+     <div
+       className="left-slide"
+       style={{ backgroundSize: "cover", backgroundPosition: "center" }}
+     >
+       <h2>{pub.titlefr}</h2>
+       <p>
+       {pub.descriptionfr}
+       </p>
+      
+         <button className={outfit.className}>
+           <span> Explore Products</span>
+           <FaArrowRight />
+         </button>
+    
+     </div>
+     <div className="right-slide">
+       <Image src={produit} alt="produit" />
+     </div>
    
-      <button className={outfit.className}>
-        <span> Explore Products</span>
-        <FaArrowRight />
-      </button>
- 
-  </div>
-  <div className="right-slide">
-    <Image src={produit} alt="produit" />
-  </div>
-
-
-
-
-</div>
-      <div className='slider'>
-  
-  <div
-    className="left-slide"
-    style={{ backgroundSize: "cover", backgroundPosition: "center" }}
-  >
-    <h2>Title for the Products</h2>
-    <p>
-      In publishing and graphic design, Lorem ipsum is a placeholder text
-      commonly used to demonstrate the visual form of a document or a
-      typeface without relying on meaningful content. Lorem ipsum may be
-      used as a placeholder before the final copy is available.
-    </p>
    
-      <button className={outfit.className}>
-        <span> Explore Products</span>
-        <FaArrowRight />
-      </button>
- 
-  </div>
-  <div className="right-slide">
-    <Image  src={produit} alt="produit" />
-  </div>
-
-
-
-
-</div>
-      <div className='slider'>
-  
-  <div
-    className="left-slide"
-    style={{ backgroundSize: "cover", backgroundPosition: "center" }}
-  >
-    <h2>Title for the Products</h2>
-    <p>
-      In publishing and graphic design, Lorem ipsum is a placeholder text
-      commonly used to demonstrate the visual form of a document or a
-      typeface without relying on meaningful content. Lorem ipsum may be
-      used as a placeholder before the final copy is available.
-    </p>
    
-      <button className={outfit.className}>
-        <span> Explore Products</span>
-        <FaArrowRight />
-      </button>
- 
-  </div>
-  <div className="right-slide">
-    <Image src={produit} alt="produit" />
-  </div>
-
-
-
-
-</div>
+   
+   </div>
+ ))}
+   
 <div className="slider">
   <div className="add-slide" onClick={handleOpen}>
               <h3>Click ici pour modifier ou ajouter des slide</h3>
