@@ -115,7 +115,7 @@ export default function SideNav() {
         <NavLink href="/Commande">
           <li>
 
-            <MdChecklist /> Commendes
+            <MdChecklist /> Commandes
 
           </li>
         </NavLink>

@@ -38,6 +38,7 @@ import { getCategorie } from "@/app/services/categorie";
 import { useForm } from "react-hook-form";
 
 export default function page() {
+
   //stat
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
@@ -89,6 +90,7 @@ const handledeleteProduct=(id)=>{
         console.error(err);
       });
   }, []);
+
 // create
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -158,8 +160,10 @@ console.log('====================================');
 
           <div className="right-modal">
             <h3>Information générale</h3>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
+
                 type="text"
                 placeholder="Titre du produit fr"
                 {...register("titlefr", { required: "Title is required" })}
@@ -182,8 +186,10 @@ console.log('====================================');
 
               <textarea
                 className="desc2"
+
                 placeholder="Description du produit fr"
                 {...register("descfr", { required: true })}
+
               />
               {errors.descFr && <p>This field is required</p>}
 
@@ -223,8 +229,10 @@ console.log('====================================');
               key={index}
               product={product}
               handleOpen={handleOpen}
+
               deleteProduct={handledeleteProduct}
               fatchProduct={fatchProduct}
+
             />
           ))}
         </div>
