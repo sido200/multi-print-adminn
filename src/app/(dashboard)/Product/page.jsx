@@ -2,8 +2,16 @@
 import CardProduct from "@/components/CardProduct/CardProduct";
 import "./Product.css";
 import Modal from "@mui/material/Modal";
+"use client";
+import CardProduct from "@/components/CardProduct/CardProduct";
+import "./Product.css";
+import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -13,7 +21,13 @@ const style = {
   bgcolor: "background.paper",
   border: "white",
   borderRadius: 6,
+  height: 666,
+  bgcolor: "background.paper",
+  border: "white",
+  borderRadius: 6,
   p: 6,
+  display: "flex",
+  gap: 5,
   display: "flex",
   gap: 5,
 };
@@ -109,6 +123,7 @@ console.log('====================================');
 
   return (
     <>
+      <Modal
       <Modal
         open={open}
         onClose={handleClose}

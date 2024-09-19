@@ -1,4 +1,3 @@
-
 import Contacter from "@/components/Contacter/Contacter";
 import { FiLock } from "react-icons/fi";
 export default function page() {
@@ -6,9 +5,10 @@ export default function page() {
     <div className="dahsboard-lock">
       <h1>Analytiques</h1>
       <p>
-      Check le s statistique général de votre <br /> site et de vos commande
+        Checker les statistiques générales de votre <br /> site et de vos
+        commandes
       </p>
-      <Contacter/>
+      <Contacter />
     </div>
   );
 }

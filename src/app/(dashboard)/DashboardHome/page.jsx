@@ -1,27 +1,26 @@
-"use client"
-import './DashboardHome.css'
-import produit from  '../../assets/produit.png'
-import { Outfit } from 'next/font/google';
+"use client";
+import "./DashboardHome.css";
+import produit from "../../assets/produit.png";
+import { Outfit } from "next/font/google";
 const outfit = Outfit({ subsets: ["latin"] });
 import { FaArrowRight } from "react-icons/fa6";
-import Image from 'next/image';
+import Image from "next/image";
 import { IoClose } from "react-icons/io5";
-import Modal from '@mui/material/Modal';
+import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 900,
-  height:566,
-  bgcolor: 'background.paper',
-  border: 'white',
-  borderRadius:6,
+  height: 566,
+  bgcolor: "background.paper",
+  border: "white",
+  borderRadius: 6,
   p: 6,
-  display:'flex',
-  gap:5
- 
+  display: "flex",
+  gap: 5,
 };
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -36,7 +35,7 @@ export default function page() {
   const [title, setTitle] = useState('Title for the Products');
   const [pubs, setPubs] = useState([]);
   const [description, setDescription] = useState(
-    'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.'
+    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available."
   );
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
    
@@ -49,9 +48,7 @@ export default function page() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        
         setImage(reader.result);
-    
       };
       reader.readAsDataURL(file);
     }
@@ -98,7 +95,7 @@ export default function page() {
   };
   return (
     <>
- <Modal
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -203,10 +200,10 @@ export default function page() {
           </div>
        
 
-<div className="btn">
-<button>Crée le slide & publier</button>
-</div>
-        </div>
+            <div className="btn">
+              <button>Créer le slide & publier</button>
+            </div>
+          </div>
         </Box>
       </Modal>
     
@@ -253,6 +250,5 @@ export default function page() {
     </div>
     </div>
     </>
-   
-  )
+  );
 }
