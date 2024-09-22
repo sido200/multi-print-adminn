@@ -1,12 +1,9 @@
-
-
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  font-family: "__Outfit_cfacd3";
 }
-
-
 
 * {
   box-sizing: border-box;
@@ -14,30 +11,24 @@ body {
   margin: 0;
   list-style: none;
 }
-.main{
+.main {
   display: flex;
- 
-
-
 }
-html:has(.main){
+html:has(.main) {
   overflow-y: hidden !important;
 }
 
-.left-login{
-  background-image: url('./assets//80930cf10f33b696657d4ee9671e9d31.jpg');
+.left-login {
+  background-image: url("./assets//80930cf10f33b696657d4ee9671e9d31.jpg");
   width: 50%;
   height: 100vh;
-  background-size:cover;
+  background-size: cover;
   background-repeat: no-repeat;
- 
-
 }
-.login{
+.login {
   display: flex;
-  
 }
-.right-login{
+.right-login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,43 +36,42 @@ html:has(.main){
   padding: 200px;
   width: 50%;
 }
-.right-login input{
- width: 100%;
- border: 1px solid 
- rgba(221, 221, 221, 1);
- 
- padding: 15px;
- border-radius: 8px;
+.right-login input {
+  width: 100%;
+  border: 1px solid rgba(221, 221, 221, 1);
+
+  padding: 15px;
+  border-radius: 8px;
 }
-.right-login form{
+.right-login form {
   display: flex;
-width: 100%;
+  width: 100%;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
 }
-.right-login h2{
-font-size: 2.3rem;
-width: 100%;
+.right-login h2 {
+  font-size: 2.3rem;
+  width: 100%;
 }
-.right-login label{
-font-size: 1.2rem;
-font-weight: 600;
-margin-top: 15px;
+.right-login label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 15px;
 }
-.right-login p{
-color: red;
-display: flex;
-flex-direction: row-reverse;
-font-size: 0.8rem;
-margin-bottom: 10px;
-cursor: pointer;
+.right-login p {
+  color: red;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
-.error{
+.error {
   margin: 0%;
   flex-direction: row !important;
 }
-.right-login button{
+.right-login button {
   background-color: rgba(250, 191, 2, 1);
   color: white;
   padding: 15px;
@@ -91,42 +81,40 @@ cursor: pointer;
   font-size: 1.3rem;
   font-weight: 500;
   cursor: pointer;
-
 }
-a{
+a {
   text-decoration: none;
 }
 /*lock*/
-.dahsboard-lock{
+.dahsboard-lock {
   display: flex;
   flex-direction: column;
-   width: 83%;
-   padding: 50px 50px;
-   gap: 5px;
-   overflow-y: auto !important;
-   height: 100vh;
+  width: 83%;
+  padding: 35px 50px;
+  gap: 5px;
+  overflow-y: auto !important;
+  height: 100vh;
 }
-.dahsboard-lock>p{
+.dahsboard-lock > p {
   color: rgba(103, 103, 108, 1);
   font-size: 1.3rem;
- 
- }
- .center{
+}
+.center {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 20px;
   height: 70%;
- }
- .center p{
+}
+.center p {
   color: rgba(103, 103, 108, 1);
   font-size: 1.2rem;
   text-align: center;
- }
- .center button{
+}
+.center button {
   display: flex;
- 
+
   background-color: rgba(250, 191, 2, 1);
   color: white;
   padding: 10px;
@@ -137,6 +125,6 @@ a{
   font-weight: 600;
   cursor: pointer;
   width: 18%;
- justify-content: center;
- align-items: center;
- }
+  justify-content: center;
+  align-items: center;
+}
