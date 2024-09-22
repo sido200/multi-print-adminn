@@ -33,13 +33,12 @@ import { useState } from "react";
 import { logoutUser } from "@/app/services/auth";
 import { useRouter } from "next/navigation";
 
-
 export default function SideNav() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const router = useRouter(); 
+  const router = useRouter();
   const HandelLogout = () => {
     logoutUser()
       .then((res) => {
@@ -96,6 +95,16 @@ export default function SideNav() {
             <FiLayout /> Categories
           </li>
         </NavLink>
+        <NavLink href="/Newsletter">
+          <li>
+            <FiLayout /> Newsletters
+          </li>
+        </NavLink>
+        <NavLink href="/Contact">
+          <li>
+            <FiLayout /> Contact messages
+          </li>
+        </NavLink>
       </ul>
       <div className="sub-title">
         <h2>Service</h2>
@@ -114,9 +123,7 @@ export default function SideNav() {
         </NavLink>
         <NavLink href="/Commande">
           <li>
-
             <MdChecklist /> Commandes
-
           </li>
         </NavLink>
       </ul>
