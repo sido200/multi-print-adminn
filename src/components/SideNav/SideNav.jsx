@@ -100,6 +100,11 @@ export default function SideNav() {
             <FiLayout /> Newsletters
           </li>
         </NavLink>
+        <NavLink href="/Contact">
+          <li>
+            <FiLayout /> Contact messages
+          </li>
+        </NavLink>
       </ul>
       <div className="sub-title">
         <h2>Service</h2>
