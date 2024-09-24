@@ -70,6 +70,7 @@ html:has(.main) {
 .error {
   margin: 0%;
   flex-direction: row !important;
+  color: red;
 }
 .right-login button {
   background-color: rgba(250, 191, 2, 1);
