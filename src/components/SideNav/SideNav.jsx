@@ -7,14 +7,20 @@ import {
   FiBookOpen,
   FiBriefcase,
   FiHelpCircle,
-  FiLock,
 } from "react-icons/fi";
 import { IoSchoolOutline } from "react-icons/io5";
-import { LuPencilRuler } from "react-icons/lu";
+import { LuNewspaper, LuPencilRuler } from "react-icons/lu";
 import { MdChecklist } from "react-icons/md";
 import "./SideNav.css";
 import { NavLink } from "../NavLink";
 import { Box, Modal } from "@mui/material";
+import { AiOutlineMail } from "react-icons/ai";
+import { useState } from "react";
+import { logoutUser } from "@/app/services/auth";
+import { useRouter } from "next/navigation";
+import Image from "next/image"; 
+import logo from "../../app/assets/image.png";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -29,9 +35,6 @@ const style = {
   display: "flex",
   gap: 5,
 };
-import { useState } from "react";
-import { logoutUser } from "@/app/services/auth";
-import { useRouter } from "next/navigation";
 
 export default function SideNav() {
   const [open, setOpen] = useState(false);
@@ -49,6 +52,7 @@ export default function SideNav() {
         console.error(err);
       });
   };
+
   return (
     <nav className="nav-bar">
       <Modal
@@ -60,20 +64,22 @@ export default function SideNav() {
         <Box sx={style} className="box">
           <div className="logout">
             <p>
-              Contacter l’équipe de Binnovant afin de <br /> Vous aidez
+              Contacter l’équipe de Binnovant afin de <br /> Vous aider
             </p>
             <button>Contacter l’équipe</button>
             <div className="action">
               <h4 onClick={handleClose}>Annuler</h4>
-
               <h4 onClick={HandelLogout}> Déconnexion</h4>
             </div>
           </div>
         </Box>
       </Modal>
+
       <div className="logo">
-        <h1>logo</h1>
+        <Image src={logo} alt="logo" width={140} height={80} />
+       
       </div>
+
       <ul>
         <NavLink href="/DashboardHome">
           <li>
@@ -90,26 +96,25 @@ export default function SideNav() {
             <FiLayout /> Produit
           </li>
         </NavLink>
-        <NavLink href="/Categories">
-          <li>
-            <FiLayout /> Categories
-          </li>
-        </NavLink>
         <NavLink href="/Newsletter">
           <li>
-            <FiLayout /> Newsletters
+            <LuNewspaper />
+            Newsletters
           </li>
         </NavLink>
         <NavLink href="/Contact">
           <li>
-            <FiLayout /> Contact messages
+            <AiOutlineMail />
+            Contact messages
           </li>
         </NavLink>
       </ul>
+
       <div className="sub-title">
         <h2>Service</h2>
         <hr />
       </div>
+
       <ul>
         <NavLink href="/Product">
           <li>
@@ -127,10 +132,12 @@ export default function SideNav() {
           </li>
         </NavLink>
       </ul>
+
       <div className="sub-title">
         <h2>Paramètres</h2>
         <hr />
       </div>
+
       <ul>
         <NavLink href="/Mode">
           <li>

@@ -3,7 +3,7 @@
   width: 17%;
   height: 100vh;
   padding: 20px;
-  gap: 20px;
+  gap: 15px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -22,7 +22,7 @@
 .nav-bar ul {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 .sub-title {
   display: flex;
