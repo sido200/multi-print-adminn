@@ -31,7 +31,7 @@
   width: 100%;
 
   display: flex;
-
+  position: relative;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -40,7 +40,7 @@
   display: block;
 
   height: 300px !important;
-  width: 100px !important;
+  width: 70% !important;
   position: relative !important;
 
   object-fit: cover;
@@ -86,7 +86,7 @@
 .sliderbleu .left-slide {
   background-image: url("../../assets/frame3.png") !important;
 }
-.slideryellow.right-slide {
+.slideryellow .right-slide {
   background-color: #fef6d9 !important;
 }
 .sliderred .right-slide {
@@ -354,4 +354,28 @@
   width: 20%;
   justify-content: center;
   align-items: center;
+}
+
+.action-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.action-btn button {
+  display: flex;
+  border: none;
+
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  width: 42px;
+  background-color: white;
+  /* color: black; */
+  font-size: 23px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.css-uywun8-MuiPaper-root-MuiPopover-paper {
+  box-shadow: 0px 14px 20px 0px rgb(0 0 0 / 6%) !important;
 }

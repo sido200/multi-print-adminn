@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import Image from "next/image";
 import productImage from "../../app/assets/product.jpg";
-import "./CardProduct.css"
-import Popover from '@mui/material/Popover';
+import "./CardProduct.css";
+import Popover from "@mui/material/Popover";
 import { HiDotsVertical } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { FiTrash2 ,FiEdit3 } from "react-icons/fi";
+import { FiTrash2, FiEdit3 } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { Box, Modal } from "@mui/material";
 import { IoClose } from "react-icons/io5";
@@ -26,7 +26,7 @@ const style = {
   display: "flex",
   gap: 5,
 };
-export default function CardProduct({product,deleteProduct,fatchProduct}) {
+export default function CardProduct({ product, deleteProduct, fatchProduct }) {
   //stat
   const [open2, setOpen2] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -43,18 +43,17 @@ export default function CardProduct({product,deleteProduct,fatchProduct}) {
   const handleClose2 = () => setOpen2(false);
   //fatch
 
-useEffect(() => {
-  getCategorie()
-    .then((res) => {
-      setCategories(res.data.categories);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-}, []);
+  useEffect(() => {
+    getCategorie()
+      .then((res) => {
+        setCategories(res.data.categories);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
- 
-// create
+  // create
   const onSubmit = (data) => {
     const formData = new FormData();
 
@@ -71,14 +70,14 @@ useEffect(() => {
       formData.append("images", data.files);
     }
 
-    updateProduct(product._id,formData)
+    updateProduct(product._id, formData)
       .then(() => {
-        handleClose2()
-        fatchProduct()
+        handleClose2();
+        fatchProduct();
         Swal.fire({
           title: "Good job!",
           text: "update Product successfully",
-          icon: "success"
+          icon: "success",
         });
       })
       .catch(() => {
@@ -89,10 +88,8 @@ useEffect(() => {
         });
       });
   };
-  
-  
+
   const [anchorEl, setAnchorEl] = useState(null);
-  
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -103,11 +100,10 @@ useEffect(() => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
   return (
-  
     <div className="card-product">
-            <Modal
+      <Modal
         open={open2}
         onClose={handleClose2}
         aria-labelledby="modal-modal-title"
@@ -196,30 +192,35 @@ useEffect(() => {
           </div>
         </Box>
       </Modal>
-       <Popover
+      <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
       >
-       <ul className="crud">
-       <li onClick={()=>deleteProduct(product._id)}> Supprimer <FiTrash2/></li>
-        <li onClick={handleOpen2}>Modifier <FiEdit3/> </li>
-      
-       </ul>
-       
+        <ul className="crud">
+          <li onClick={() => deleteProduct(product._id)}>
+            {" "}
+            Supprimer <FiTrash2 />
+          </li>
+          <li onClick={handleOpen2}>
+            Modifier <FiEdit3 />{" "}
+          </li>
+        </ul>
       </Popover>
       <div className="menu" onClick={handleClick}>
-      <HiDotsVertical />
+        <HiDotsVertical />
       </div>
-    <div className="img">  <img src={product.images[0]} alt="product" /></div>
+      <div className="img">
+        {" "}
+        <img src={product.images[0]} alt="product" />
+      </div>
       <h3>{product.titlefr}</h3>
       <h4>Type</h4>
     </div>
- 
   );
 }

@@ -12,10 +12,10 @@ export default function RootLayout({ children }) {
   const user = useUserStore((state) => state.user);
   const router = useRouter();
 
-  if (!user) {
-    router.push("/"); // Utiliser useRouter pour rediriger côté client
-    return null; // Pour ne rien afficher avant la redirection
-  }
+  // if (!user) {
+  //   router.push("/"); // Utiliser useRouter pour rediriger côté client
+  //   return null; // Pour ne rien afficher avant la redirection
+  // }
 
   return (
     <html lang="en">

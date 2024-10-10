@@ -7,7 +7,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import Modal from "@mui/material/Modal";
-import { Box } from "@mui/material";
+import { Box, Button, Popover, Typography } from "@mui/material";
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,8 +24,9 @@ const style = {
 };
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createPub, getpub } from "@/app/services/pub";
+import { createPub, getpub, deletePubs } from "@/app/services/pub";
 import Swal from "sweetalert2";
+import { HiDotsVertical } from "react-icons/hi";
 
 export default function page() {
   //stat
@@ -47,7 +48,8 @@ export default function page() {
     reset,
   } = useForm({});
   const [image, setImage] = useState(produit); // Path to your initial image
-  const [color, setColor] = useState("yowloz");
+  const [color, setColor] = useState("yellow");
+  console.log();
   //fimction
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -109,6 +111,41 @@ export default function page() {
         });
       });
   };
+
+  const handledelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePubs(id)
+          .then(() => {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            fatchPub();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  };
+  const [anchorEl2, setAnchorEl2] = useState(null);
+
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const open2 = Boolean(anchorEl2);
+  const id2 = open2 ? "simple-popover" : undefined;
   return (
     <>
       <Modal
@@ -228,28 +265,64 @@ export default function page() {
           votre Dashboard
         </p>
 
-        <div className="grid-slider">
+        <div className="grid-slider" style={{ position: "relative" }}>
           {pubs.map((pub, index) => (
-            <div className={`slider slider${pub.color}`} key={index}>
-              <div
-                className="left-slide"
-                style={{
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <h2>{pub.titlefr}</h2>
-                <p>{pub.descriptionfr}</p>
+            <>
+              <div className={`slider slider${pub.color}`} key={index}>
+                <div
+                  className="left-slide"
+                  style={{
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <h2>{pub.titlefr}</h2>
+                  <p>{pub.descriptionfr}</p>
 
-                <button className={outfit.className}>
-                  <span>Explore Products</span>
-                  <FaArrowRight />
-                </button>
+                  <button className={outfit.className}>
+                    <span>Explore Products</span>
+                    <FaArrowRight />
+                  </button>
+                </div>
+                <div className="right-slide">
+                  <img src={pub.image} alt="produit" />
+                </div>
+                <div className="action-btn">
+                  <button
+                    aria-describedby={id2}
+                    variant="contained"
+                    onClick={handleClick2}
+                  >
+                    <HiDotsVertical />
+                  </button>
+                  <Popover
+                    id={id2}
+                    open={open2}
+                    anchorEl={anchorEl2}
+                    onClose={handleClose2}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      // horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "__Outfit_cfacd3",
+                        cursor: "pointer",
+                      }}
+                      sx={{ p: 2 }}
+                      onClick={() => handledelete(pub._id)}
+                    >
+                      Supprimer la pub
+                    </span>
+                  </Popover>
+                </div>
               </div>
-              <div className="right-slide">
-                <img src={pub.image} alt="produit" />
-              </div>
-            </div>
+            </>
           ))}
 
           <div className="slider">
