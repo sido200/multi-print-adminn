@@ -68,6 +68,9 @@
 .slider:nth-child(3) .left-slide {
   background-image: url("../../assets/frame3.png");
 }
+.slider:nth-child(4) .left-slide {
+  background-image: url("../../assets/frame4.png");
+}
 .slider:nth-child(1) .right-slide {
   background-color: #fef6d9;
 }
@@ -86,6 +89,9 @@
 .sliderbleu .left-slide {
   background-image: url("../../assets/frame3.png") !important;
 }
+.slidergreen .left-slide {
+  background-image: url("../../assets/frame4.png") !important;
+}
 .slideryellow .right-slide {
   background-color: #fef6d9 !important;
 }
@@ -94,6 +100,9 @@
 }
 .sliderbleu .right-slide {
   background-color: #e5f3ff !important;
+}
+.slidergreen .right-slide {
+  background-color: #d5fdd2 !important;
 }
 .right-slide {
   height: 350px;

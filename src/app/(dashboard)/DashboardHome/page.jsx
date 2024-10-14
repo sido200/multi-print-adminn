@@ -7,7 +7,14 @@ import { FaArrowRight } from "react-icons/fa6";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import Modal from "@mui/material/Modal";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { Box, Button, Popover, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { createPub, getpub, deletePubs } from "@/app/services/pub";
+import Swal from "sweetalert2";
+import { HiDotsVertical } from "react-icons/hi";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -22,35 +29,52 @@ const style = {
   display: "flex",
   gap: 5,
 };
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { createPub, getpub, deletePubs } from "@/app/services/pub";
-import Swal from "sweetalert2";
-import { HiDotsVertical } from "react-icons/hi";
-
 export default function page() {
   //stat
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    reset();
-  }; // Reset form when modal closes
+  const [image, setImage] = useState(produit); // Path to your initial image
+  const [color, setColor] = useState("yellow");
+  const [anchorEl2, setAnchorEl2] = useState(null);
   const [title, setTitle] = useState("Title for the Products");
   const [pubs, setPubs] = useState([]);
   const [description, setDescription] = useState(
-    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available."
+    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
   );
+
+  const open2 = Boolean(anchorEl2);
+  const id2 = open2 ? "simple-popover" : undefined;
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClick2 = (event, id) => {
+    setAnchorEl2({ anchor: event.currentTarget, id });
+  };
+
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const fatchPub = () => {
+    getpub()
+      .then((res) => {
+        setPubs(res.data.pubs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({});
-  const [image, setImage] = useState(produit); // Path to your initial image
-  const [color, setColor] = useState("yellow");
-  console.log();
-  //fimction
+  const handleClose = () => {
+    setOpen(false);
+    reset();
+  }; // Reset form when modal closes
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -61,58 +85,11 @@ export default function page() {
       reader.readAsDataURL(file);
     }
   };
-  //fatch
-  const fatchPub = () => {
-    getpub()
-      .then((res) => {
-        setPubs(res.data.pubs);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    fatchPub();
-  }, []);
 
   //create
-  const onSubmit = (data) => {
-    const formData = new FormData();
-
-    // Append all form data fields
-    formData.append("titlefr", data.titlefr);
-    formData.append("titleen", data.titleen);
-    formData.append("titlear", data.titlear);
-    formData.append("descriptionfr", data.descfr);
-    formData.append("descriptionen", data.descen);
-    formData.append("descriptionar", data.descar);
-    formData.append("color", color);
-
-    if (data.file && data.file[0]) {
-      formData.append("image", data.file[0]);
-    }
-
-    createPub(formData)
-      .then(() => {
-        handleClose();
-        fatchPub();
-
-        Swal.fire({
-          title: "Good job!",
-          text: "create Pub successfully",
-          icon: "success",
-        });
-      })
-      .catch(() => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
-      });
-  };
 
   const handledelete = (id) => {
+    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -134,18 +111,43 @@ export default function page() {
       }
     });
   };
-  const [anchorEl2, setAnchorEl2] = useState(null);
 
-  const handleClick2 = (event) => {
-    setAnchorEl2(event.currentTarget);
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    // Append all form data fields
+    formData.append("titlefr", data.titlefr);
+    formData.append("titleen", data.titleen);
+    formData.append("titlear", data.titlear);
+    formData.append("descriptionfr", data.descfr);
+    formData.append("descriptionen", data.descen);
+    formData.append("descriptionar", data.descar);
+    formData.append("color", color);
+    if (data.file && data.file[0]) {
+      formData.append("image", data.file[0]);
+    }
+    createPub(formData)
+      .then(() => {
+        handleClose();
+        fatchPub();
+
+        Swal.fire({
+          title: "Good job!",
+          text: "create Pub successfully",
+          icon: "success",
+        });
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      });
   };
+  useEffect(() => {
+    fatchPub();
+  }, []);
 
-  const handleClose2 = () => {
-    setAnchorEl2(null);
-  };
-
-  const open2 = Boolean(anchorEl2);
-  const id2 = open2 ? "simple-popover" : undefined;
   return (
     <>
       <Modal
@@ -291,18 +293,17 @@ export default function page() {
                   <button
                     aria-describedby={id2}
                     variant="contained"
-                    onClick={handleClick2}
+                    onClick={(event) => handleClick2(event, pub._id)} // Pass the ID of the item
                   >
                     <HiDotsVertical />
                   </button>
                   <Popover
                     id={id2}
-                    open={open2}
-                    anchorEl={anchorEl2}
+                    open={open2 && pub._id === anchorEl2?.id} // Ensure the popover is open only for this item
+                    anchorEl={anchorEl2?.anchor} // Correctly reference the anchor
                     onClose={handleClose2}
                     anchorOrigin={{
                       vertical: "bottom",
-                      // horizontal: "right",
                     }}
                     transformOrigin={{
                       vertical: "top",
@@ -313,10 +314,17 @@ export default function page() {
                       style={{
                         fontFamily: "__Outfit_cfacd3",
                         cursor: "pointer",
+                        display: "flex",
+                        padding: "10px ",
+                        alignItems: "center",
                       }}
                       sx={{ p: 2 }}
-                      onClick={() => handledelete(pub._id)}
+                      onClick={() => {
+                        handledelete(pub._id); // Delete specific pub by ID
+                        handleClose2();
+                      }}
                     >
+                      <FaRegTrashCan style={{ marginRight: "10px" }} />
                       Supprimer la pub
                     </span>
                   </Popover>

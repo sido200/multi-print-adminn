@@ -3,6 +3,17 @@ import CardProduct from "@/components/CardProduct/CardProduct";
 import "./Product.css";
 import Modal from "@mui/material/Modal";
 import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import {
+  createProduct,
+  deleteProducts,
+  getProducts,
+} from "@/app/services/produits";
+import { getCategorie } from "@/app/services/categorie";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,17 +37,9 @@ const style = {
   gap: 5,
   display: "flex",
   gap: 5,
-  zIndex:2
+  zIndex: 2,
 };
-import { useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { createProduct, deleteProducts, getProducts } from "@/app/services/produits";
-import { getCategorie } from "@/app/services/categorie";
-import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-
 export default function page() {
-
   //stat
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
@@ -54,33 +57,46 @@ export default function page() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   //fatch
-const fatchProduct=()=>{
- 
-  getProducts()
-  .then((res) => {
-    setProducts(res.data.products);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-}
-//delete
-const handledeleteProduct=(id)=>{
-  
-  
-  deleteProducts(id)
-  .then(() => {
-    fatchProduct()
-   console.log("deleted");
-   
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-}
-// call api
+  const fatchProduct = () => {
+    getProducts()
+      .then((res) => {
+        setProducts(res.data.products);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+  //delete
+  const handledeleteProduct = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProducts(id)
+          .then(() => {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            fatchProduct();
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: err.message,
+            });
+          });
+      }
+    });
+  };
+  // call api
   useEffect(() => {
-    fatchProduct()
+    fatchProduct();
   }, []);
   useEffect(() => {
     getCategorie()
@@ -92,10 +108,10 @@ const handledeleteProduct=(id)=>{
       });
   }, []);
 
-// create
+  // create
   const onSubmit = (data) => {
     const formData = new FormData();
-    setIsLoading(true)
+    setIsLoading(true);
     // Append all form data fields
     formData.append("titlefr", data.titlefr);
     formData.append("titleen", data.titleen);
@@ -113,18 +129,17 @@ const handledeleteProduct=(id)=>{
 
     createProduct(formData)
       .then(() => {
-        
-        handleClose()
-        fatchProduct()
-        setIsLoading(false)
+        handleClose();
+        fatchProduct();
+        setIsLoading(false);
         Swal.fire({
           title: "Good job!",
           text: "create Product successfully",
-          icon: "success"
+          icon: "success",
         });
       })
       .catch(() => {
-        setIsLoading(false)
+        setIsLoading(false);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -133,18 +148,15 @@ const handledeleteProduct=(id)=>{
       });
   };
 
-
   return (
     <>
-        <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1000 }}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1000 }}
         open={isLoading}
-      
       >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Modal
- 
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -155,7 +167,7 @@ const handledeleteProduct=(id)=>{
           <div className="left-modal">
             <h3>Ajouter des images</h3>
             <div className="file2">
-            <input type="file" multiple {...register("files")} />
+              <input type="file" multiple {...register("files")} />
 
               <h3>Drag & drop l’image png du produite</h3>
               <h4>Drag ou télécharger </h4>
@@ -181,7 +193,6 @@ const handledeleteProduct=(id)=>{
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
-
                 type="text"
                 placeholder="Titre du produit fr"
                 {...register("titlefr", { required: "Title is required" })}
@@ -204,10 +215,8 @@ const handledeleteProduct=(id)=>{
 
               <textarea
                 className="desc2"
-
                 placeholder="Description du produit fr"
                 {...register("descfr", { required: true })}
-
               />
               {errors.descFr && <p>This field is required</p>}
 
@@ -247,10 +256,8 @@ const handledeleteProduct=(id)=>{
               key={index}
               product={product}
               handleOpen={handleOpen}
-
               deleteProduct={handledeleteProduct}
               fatchProduct={fatchProduct}
-
             />
           ))}
         </div>

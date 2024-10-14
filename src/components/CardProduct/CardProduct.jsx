@@ -203,12 +203,21 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
         }}
       >
         <ul className="crud">
-          <li onClick={() => deleteProduct(product._id)}>
-            {" "}
+          <li
+            onClick={() => {
+              deleteProduct(product._id);
+              handleClose();
+            }}
+          >
             Supprimer <FiTrash2 />
           </li>
-          <li onClick={handleOpen2}>
-            Modifier <FiEdit3 />{" "}
+          <li
+            onClick={() => {
+              handleOpen2();
+              handleClose();
+            }}
+          >
+            Modifier <FiEdit3 />
           </li>
         </ul>
       </Popover>
@@ -216,7 +225,6 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
         <HiDotsVertical />
       </div>
       <div className="img">
-        {" "}
         <img src={product.images[0]} alt="product" />
       </div>
       <h3>{product.titlefr}</h3>
