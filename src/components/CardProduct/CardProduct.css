@@ -7,10 +7,8 @@
   align-items: flex-start;
   gap: 10px;
   position: relative;
- 
 }
-
-.img{
+.img {
   height: 83% !important;
   width: 100%;
   overflow: hidden;
@@ -20,7 +18,7 @@
 .card-product img {
   height: 100% !important;
   width: 100%;
- transition: 0.5s;
+  transition: 0.5s;
   border-radius: 6px;
 
   object-fit: cover !important;
@@ -30,7 +28,6 @@
   font-weight: 500;
   color: black;
   padding: 0 10px;
-
 }
 .card-product h4 {
   font-size: 1rem;
@@ -38,10 +35,11 @@
   color: grey;
   padding: 0 10px;
 }
-#product-section h3,#product-section h4{
+#product-section h3,
+#product-section h4 {
   padding: 0 25px;
 }
-.menu{
+.menu {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,21 +54,27 @@
   right: 10px;
   cursor: pointer;
 }
-.crud{
+.crud {
   display: flex;
-  flex-direction:column ;
+  flex-direction: column;
 }
-.crud li{
+.crud li {
   height: 40px;
-width: 150px;
-display: flex;
-align-items: center;
-gap: 10px;
-font-size: 20px;
-padding: 10px;
-justify-content: space-between;
-cursor: pointer;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  padding: 10px;
+  justify-content: space-between;
+  cursor: pointer;
 }
-.crud li:first-child{
+.crud li:first-child {
   border-bottom: 1px solid;
+}
+
+.pluscircle:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transform: rotate(180deg);
 }

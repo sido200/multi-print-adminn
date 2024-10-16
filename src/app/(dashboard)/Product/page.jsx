@@ -13,6 +13,8 @@ import {
 import { getCategorie } from "@/app/services/categorie";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import SwiperProduct from "@/components/SwiperAddProduct/SwiperAddProduct";
+import { CiCirclePlus } from "react-icons/ci";
 
 const style = {
   position: "absolute",
@@ -46,12 +48,14 @@ export default function page() {
   const [categories, setCategories] = useState([]);
   const [activeCat, setActiveCat] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState([]);
 
   //form
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   //function
   const handleOpen = () => setOpen(true);
@@ -107,7 +111,6 @@ export default function page() {
         console.error(err);
       });
   }, []);
-
   // create
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -120,18 +123,18 @@ export default function page() {
     formData.append("descen", data.descen);
     formData.append("descar", data.descar);
     formData.append("category", activeCat);
-
-    if (data.files && data.files.length > 0) {
-      Array.from(data.files).forEach((file) => {
-        formData.append("images", file);
-      });
-    }
+    images.forEach((image) => {
+      formData.append("images", image.file);
+    });
 
     createProduct(formData)
       .then(() => {
         handleClose();
         fatchProduct();
         setIsLoading(false);
+        reset();
+        setImages([]);
+
         Swal.fire({
           title: "Good job!",
           text: "create Product successfully",
@@ -147,6 +150,46 @@ export default function page() {
         });
       });
   };
+  function ImageUpload() {
+    function handleChange(e) {
+      const fileList = Array.from(e.target.files);
+      setImages((prevImages) => [
+        ...prevImages,
+        ...fileList.map((file) => ({
+          file,
+          url: window.URL.createObjectURL(file),
+        })),
+      ]);
+    }
+    function handleDeleteImage(index) {
+      URL.revokeObjectURL(images[index].url);
+      const updatedImages = images.filter((_, imgIndex) => imgIndex !== index);
+      setImages(updatedImages);
+    }
+
+    return (
+      <div className="App">
+        <div className="Appplus">
+          <label htmlFor="inputfileimage" className="inputfilecircle">
+            <CiCirclePlus size={50} className="pluscircle" />
+          </label>
+        </div>
+
+        <input
+          type="file"
+          id="inputfileimage"
+          onChange={handleChange}
+          multiple
+        />
+
+        <SwiperProduct
+          previews={images.map((img) => img.url)}
+          setImages={setImages}
+          onDeleteImage={handleDeleteImage}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -166,12 +209,11 @@ export default function page() {
           <IoClose className="close" size={24} onClick={handleClose} />
           <div className="left-modal">
             <h3>Ajouter des images</h3>
-            <div className="file2">
-              <input type="file" multiple {...register("files")} />
 
-              <h3>Drag & drop l’image png du produite</h3>
-              <h4>Drag ou télécharger </h4>
+            <div className="file2">
+              <ImageUpload />
             </div>
+
             <h3>Categorie de produit</h3>
             <div className="categorie">
               {categories.map((categorie, index) => (
@@ -235,7 +277,7 @@ export default function page() {
               {errors.descAr && <p>This field is required</p>}
 
               <div className="btn">
-                <button type="submit">Crée le slide & publier</button>
+                <button type="submit">Créer le slide & publier</button>
               </div>
             </form>
           </div>

@@ -12,6 +12,9 @@ import { IoClose } from "react-icons/io5";
 import { getCategorie } from "@/app/services/categorie";
 import { updateProduct } from "@/app/services/produits";
 import Swal from "sweetalert2";
+import { CiCirclePlus } from "react-icons/ci";
+import SwiperProduct from "../SwiperAddProduct/SwiperAddProduct";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,23 +29,37 @@ const style = {
   display: "flex",
   gap: 5,
 };
+
 export default function CardProduct({ product, deleteProduct, fatchProduct }) {
-  //stat
+  // State
   const [open2, setOpen2] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [activeCat, setActiveCat] = useState(product?.category);
-
-  //form
+  const [activeCat, setActiveCat] = useState(product?.category._id);
+  const [images, setImages] = useState([]);
+  const [activeImage, setActiveImage] = useState(0);
+  // Form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  //function
+
+  // Handlers
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
-  //fatch
 
+  // Initialize images with existing product images
+  useEffect(() => {
+    if (product?.images) {
+      const initialImages = product.images.map((imageUrl) => ({
+        file: null, // Existing image
+        url: imageUrl, // URL of the existing image
+      }));
+      setImages(initialImages);
+    }
+  }, [product]);
+
+  // Fetch categories
   useEffect(() => {
     getCategorie()
       .then((res) => {
@@ -53,11 +70,10 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
       });
   }, []);
 
-  // create
+  // Update product
   const onSubmit = (data) => {
     const formData = new FormData();
 
-    // Append all form data fields
     formData.append("titlefr", data.titlefr);
     formData.append("titleen", data.titleen);
     formData.append("titlear", data.titlear);
@@ -66,21 +82,29 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
     formData.append("descar", data.descar);
     formData.append("category", activeCat);
 
-    if (data.files && data.files[0]) {
-      formData.append("images", data.files);
-    }
+    const existingUrls = images
+      .filter((img) => !img.file)
+      .map((img) => img.url);
+    formData.append("existingUrls", JSON.stringify(existingUrls));
 
+    const newFiles = images.filter((img) => img.file);
+    newFiles.forEach((img) => formData.append("images", img.file));
+    console.log("New files:", newFiles);
+    console.log("Existing URLs:", existingUrls);
     updateProduct(product._id, formData)
-      .then(() => {
-        handleClose2();
+      .then((response) => {
+        // Update the product state and image preview
         fatchProduct();
+        handleClose2();
+        setImages(response.data?.images?.map((url) => ({ file: null, url })));
         Swal.fire({
           title: "Good job!",
-          text: "update Product successfully",
+          text: "Product updated successfully",
           icon: "success",
         });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Update error:", error);
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -89,6 +113,7 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
       });
   };
 
+  // Popover handling
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -101,6 +126,55 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  // ImageUpload Component
+  function ImageUpload() {
+    function handleChange(e) {
+      const fileList = Array.from(e.target.files);
+      setImages((prevImages) => [
+        ...prevImages,
+        ...fileList.map((file) => ({
+          file,
+          url: window.URL.createObjectURL(file), // Temporary URL for preview
+        })),
+      ]);
+    }
+
+    function handleDeleteImage(index) {
+      // Clean up the object URL for new images
+      if (images[index].file) {
+        URL.revokeObjectURL(images[index].url);
+      }
+      // Remove the image from the state
+      const updatedImages = images.filter((_, imgIndex) => imgIndex !== index);
+      setImages(updatedImages);
+    }
+
+    return (
+      <div className="App">
+        <div className="Appplus">
+          <label htmlFor="inputfileimage" className="inputfilecircle">
+            <CiCirclePlus size={50} className="pluscircle" />
+          </label>
+        </div>
+
+        <input
+          type="file"
+          id="inputfileimage"
+          onChange={handleChange}
+          multiple
+        />
+
+        <SwiperProduct
+          onImageChange={setActiveImage}
+          onDeleteImage={handleDeleteImage}
+          setImages={setImages}
+          previews={images.map((img) => img.url)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="card-product">
       <Modal
@@ -111,14 +185,11 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
       >
         <Box sx={style} className="box">
           <IoClose className="close" size={24} onClick={handleClose2} />
-          <div className="left-modal">
+          <div className="left-modal" style={{ gap: "0px" }}>
             <h3>Ajouter des images</h3>
-            <div className="file2">
-              <input type="file" multiple {...register("files")} />
-              <h3>Drag & drop l’image png du produite</h3>
-              <h4>Drag ou télécharger </h4>
+            <div className="file2" style={{ marginBottom: "20px" }}>
+              <ImageUpload />
             </div>
-            <h3>Categorie de produit</h3>
             <div className="categorie">
               {categories.map((categorie, index) => (
                 <div
@@ -135,7 +206,7 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
           </div>
 
           <div className="right-modal">
-            <h3>Information générale</h3>
+            <h3>Informations générales</h3>
             <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="text"
@@ -167,7 +238,7 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
                 placeholder="Description du produit fr"
                 {...register("descfr", { required: true })}
               />
-              {errors.descFr && <p>This field is required</p>}
+              {errors.descFr && <p>{errors.descFr.message}</p>}
 
               <textarea
                 className="desc2"
