@@ -14,7 +14,6 @@ import { getCategorie } from "@/app/services/categorie";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import SwiperProduct from "@/components/SwiperAddProduct/SwiperAddProduct";
-import { CiCirclePlus } from "react-icons/ci";
 
 const style = {
   position: "absolute",
@@ -170,8 +169,11 @@ export default function page() {
     return (
       <div className="App">
         <div className="Appplus">
-          <label htmlFor="inputfileimage" className="inputfilecircle">
-            <CiCirclePlus size={50} className="pluscircle" />
+          <label
+            htmlFor="inputfileimage"
+            className="inputfilecircle pluscircle"
+          >
+            Ajouter une image
           </label>
         </div>
 
@@ -179,7 +181,7 @@ export default function page() {
           type="file"
           id="inputfileimage"
           onChange={handleChange}
-          multiple
+          multiple  
         />
 
         <SwiperProduct

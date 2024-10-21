@@ -153,8 +153,11 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
     return (
       <div className="App">
         <div className="Appplus">
-          <label htmlFor="inputfileimage" className="inputfilecircle">
-            <CiCirclePlus size={50} className="pluscircle" />
+          <label
+            htmlFor="inputfileimage"
+            className="inputfilecircle pluscircle"
+          >
+            Ajouter des images{" "}
           </label>
         </div>
 
