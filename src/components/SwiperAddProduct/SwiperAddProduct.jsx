@@ -4,7 +4,7 @@ import "swiper/css/effect-creative";
 import "./SwpierAddProduct.css";
 import { EffectCreative } from "swiper/modules";
 import { useRef, useEffect } from "react";
-
+import Dropzone from "../DropZone/DropZone";
 
 export default function SwiperProduct({
   previews,
@@ -61,8 +61,17 @@ export default function SwiperProduct({
           ))
         ) : (
           <SwiperSlide>
-            <h3>Drag & drop l’image png du produit</h3>
-            <h4>Drag ou télécharger </h4>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                gap: "0px",
+              }}
+            >
+              <h3 style={{ margin: "0px" }}>Les images apparaîtront ici</h3>
+              <h4>Max. 3 images</h4>
+            </div>
           </SwiperSlide>
         )}
       </Swiper>

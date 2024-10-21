@@ -14,6 +14,7 @@ import { getCategorie } from "@/app/services/categorie";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import SwiperProduct from "@/components/SwiperAddProduct/SwiperAddProduct";
+import DropZone from "@/components/DropZone/DropZone";
 
 const style = {
   position: "absolute",
@@ -152,6 +153,17 @@ export default function page() {
   function ImageUpload() {
     function handleChange(e) {
       const fileList = Array.from(e.target.files);
+      const totalImages = images.length + fileList.length;
+
+      if (totalImages > 3) {
+        Swal.fire({
+          icon: "warning",
+          title: "Limit Reached",
+          text: "You can only upload a maximum of 3 images.",
+        });
+        return;
+      }
+
       setImages((prevImages) => [
         ...prevImages,
         ...fileList.map((file) => ({
@@ -181,7 +193,7 @@ export default function page() {
           type="file"
           id="inputfileimage"
           onChange={handleChange}
-          multiple  
+          multiple
         />
 
         <SwiperProduct
