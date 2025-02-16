@@ -25,14 +25,15 @@ const schema = yup.object().shape({
     .min(6, "Le mot de passe doit comporter au moins 6 caractères"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Les mots de passe doivent correspondre")
+    .oneOf(
+      [yup.ref("password"), null],
+      "Les mots de passe doivent correspondre"
+    )
     .required("Confirmation du mot de passe est requise"),
 });
 
 export default function Page() {
   const user = useUserStore((state) => state.user);
-  console.log(user);
-  
   const {
     register,
     handleSubmit,
@@ -42,15 +43,12 @@ export default function Page() {
   });
 
   const onSubmit = (data) => {
-    console.log("Submitting form...", data);
-    
-    updateUser(user._id,data)
-      .then((res) => { 
-        console.log(res);
+    updateUser(user._id, data)
+      .then((res) => {
         Swal.fire({
           title: "Good job!",
           text: "update User successfully",
-          icon: "success"
+          icon: "success",
         });
       })
       .catch((err) => {

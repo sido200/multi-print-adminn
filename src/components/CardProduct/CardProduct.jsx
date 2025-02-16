@@ -89,8 +89,6 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
 
     const newFiles = images.filter((img) => img.file);
     newFiles.forEach((img) => formData.append("images", img.file));
-    console.log("New files:", newFiles);
-    console.log("Existing URLs:", existingUrls);
     updateProduct(product._id, formData)
       .then((response) => {
         // Update the product state and image preview
