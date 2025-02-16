@@ -2,7 +2,6 @@
 import {
   FiHome,
   FiPieChart,
-  FiLayout,
   FiAward,
   FiBookOpen,
   FiBriefcase,
@@ -18,7 +17,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { useState } from "react";
 import { logoutUser } from "@/app/services/auth";
 import { useRouter } from "next/navigation";
-import Image from "next/image"; 
+import Image from "next/image";
 import logo from "../../app/assets/image.png";
 
 const style = {
@@ -46,7 +45,6 @@ export default function SideNav() {
     logoutUser()
       .then((res) => {
         router.push("/");
-        console.log(res);
       })
       .catch((err) => {
         console.error(err);
@@ -77,7 +75,6 @@ export default function SideNav() {
 
       <div className="logo">
         <Image src={logo} alt="logo" width={140} height={80} />
-       
       </div>
 
       <ul>
@@ -89,11 +86,6 @@ export default function SideNav() {
         <NavLink href="/Analytiques">
           <li>
             <FiPieChart /> Analytiques
-          </li>
-        </NavLink>
-        <NavLink href="/Product">
-          <li>
-            <FiLayout /> Produit
           </li>
         </NavLink>
         <NavLink href="/Newsletter">
@@ -139,15 +131,15 @@ export default function SideNav() {
       </div>
 
       <ul>
+        <NavLink href="/Parametre">
+          <li>
+            <FiBookOpen /> Paramètres
+          </li>
+        </NavLink>
         <NavLink href="/Mode">
           <li>
             <FiAward />
             Modérateur
-          </li>
-        </NavLink>
-        <NavLink href="/Parametre">
-          <li>
-            <FiBookOpen /> Paramètres
           </li>
         </NavLink>
         <NavLink href="/Admin">

@@ -17,7 +17,6 @@ export default function SwiperProduct({
   const handleDeleteImage = (index) => {
     URL.revokeObjectURL(previews[index]);
     const updatedImages = previews.filter((_, imgIndex) => imgIndex !== index);
-    console.log("Updated images:", updatedImages);
     setImages(updatedImages);
   };
 

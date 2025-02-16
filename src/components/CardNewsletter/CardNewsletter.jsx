@@ -59,7 +59,7 @@ export default function StickyHeadTable() {
     try {
       const response = await getAllNewsletter();
       setNewsletter(response.data.newsletters);
-      console.log(response.data.newsletters);
+
     } catch (error) {
       console.error(error);
     }

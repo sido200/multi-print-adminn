@@ -8,10 +8,10 @@ import { useRouter } from "next/navigation";
 import useUserStore from "@/zustand/store";
 import { toast, ToastContainer } from "react-toastify";
 import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
-
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
+
 // Schéma de validation avec Yup
 const schema = yup.object().shape({
   email: yup
@@ -38,9 +38,7 @@ export default function Home() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setLoading(true);
-
     loginUser(data)
       .then((res) => {
         router.push("/DashboardHome");
@@ -71,6 +69,7 @@ export default function Home() {
             {errors.email && <p className="error">{errors.email.message}</p>}
 
             <label htmlFor="password">Mot de passe :</label>
+
             <div className="foreyeinput">
               <input
                 className="passput"
@@ -94,10 +93,10 @@ export default function Home() {
               </div>
             </div>
 
+
             {errors.password && (
               <p className="error">{errors.password.message}</p>
             )}
-
             <p>Mot de passe oublié ?</p>
             {!loading ? (
               <button type="submit">Connexion</button>
@@ -106,6 +105,7 @@ export default function Home() {
                 <CircularProgress size={25} color="white" />
               </button>
             )}
+
           </form>
         </div>
       </div>
