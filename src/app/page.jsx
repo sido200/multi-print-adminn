@@ -7,8 +7,11 @@ import { loginUser } from "./services/auth";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/zustand/store";
 import { toast, ToastContainer } from "react-toastify";
-
+import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { CircularProgress } from "@mui/material";
+
 // Schéma de validation avec Yup
 const schema = yup.object().shape({
   email: yup
@@ -22,9 +25,10 @@ const schema = yup.object().shape({
 });
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
-
+  const [show, setShow] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,6 +38,7 @@ export default function Home() {
   });
 
   const onSubmit = (data) => {
+    setLoading(true);
     loginUser(data)
       .then((res) => {
         router.push("/DashboardHome");
@@ -42,6 +47,7 @@ export default function Home() {
       })
       .catch((err) => {
         toast.error("erreur de Connexion  !");
+        setLoading(false);
         console.error(err);
       });
   };
@@ -58,18 +64,48 @@ export default function Home() {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="email">Email :</label>
-            <input type="email" {...register("email")} />
+            <input className="emailput" type="email" {...register("email")} />
 
             {errors.email && <p className="error">{errors.email.message}</p>}
 
             <label htmlFor="password">Mot de passe :</label>
-            <input type="password" {...register("password")} />
+
+            <div className="foreyeinput">
+              <input
+                className="passput"
+                type={!show && "password"}
+                {...register("password")}
+              />
+              <div className="eye">
+                {show ? (
+                  <LiaEyeSolid
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setShow(false)}
+                    size={25}
+                  />
+                ) : (
+                  <LiaEyeSlashSolid
+                    style={{ cursor: "pointer" }}
+                    size={25}
+                    onClick={() => setShow(true)}
+                  />
+                )}
+              </div>
+            </div>
+
 
             {errors.password && (
               <p className="error">{errors.password.message}</p>
             )}
+            <p>Mot de passe oublié ?</p>
+            {!loading ? (
+              <button type="submit">Connexion</button>
+            ) : (
+              <button type="submit">
+                <CircularProgress size={25} color="white" />
+              </button>
+            )}
 
-            <button type="submit">Connexion</button>
           </form>
         </div>
       </div>

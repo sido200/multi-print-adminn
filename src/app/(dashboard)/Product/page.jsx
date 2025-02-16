@@ -49,7 +49,7 @@ export default function page() {
   const [activeCat, setActiveCat] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState([]);
-
+  const [imgError, setImgError] = useState("");
   //form
   const {
     register,

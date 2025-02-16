@@ -34,15 +34,34 @@ html:has(.main) {
   justify-content: center;
   flex-direction: column;
   padding: 200px;
+  padding-bottom: 100px;
   width: 50%;
 }
-.right-login input {
+.right-login .emailput {
   width: 100%;
   border: 1px solid rgba(221, 221, 221, 1);
-
   padding: 15px;
   border-radius: 8px;
 }
+.right-login .passput {
+  border: none;
+  width: 90%;
+  height: 100%;
+}
+.right-login .passput:focus-visible {
+  border: none;
+  outline: none;
+}
+.foreyeinput {
+  width: 100%;
+  border: 1px solid rgba(221, 221, 221, 1);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .right-login form {
   display: flex;
   width: 100%;

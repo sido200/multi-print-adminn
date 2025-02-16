@@ -37,13 +37,13 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
   const [activeCat, setActiveCat] = useState(product?.category._id);
   const [images, setImages] = useState([]);
   const [activeImage, setActiveImage] = useState(0);
+  const [imgError, setImgError] = useState("");
   // Form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   // Handlers
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
@@ -89,26 +89,30 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
 
     const newFiles = images.filter((img) => img.file);
     newFiles.forEach((img) => formData.append("images", img.file));
-    updateProduct(product._id, formData)
-      .then((response) => {
-        // Update the product state and image preview
-        fatchProduct();
-        handleClose2();
-        setImages(response.data?.images?.map((url) => ({ file: null, url })));
-        Swal.fire({
-          title: "Good job!",
-          text: "Product updated successfully",
-          icon: "success",
-        });
-      })
-      .catch((error) => {
-        console.error("Update error:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
-      });
+    newFiles.length !== 0 && existingUrls.length !== 0
+      ? updateProduct(product._id, formData)
+          .then((response) => {
+            // Update the product state and image preview
+            fatchProduct();
+            handleClose2();
+            setImages(
+              response.data?.images?.map((url) => ({ file: null, url }))
+            );
+            Swal.fire({
+              title: "Good job!",
+              text: "Product updated successfully",
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            console.error("Update error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+            });
+          })
+      : setImgError("Please add at least 1 image");
   };
 
   // Popover handling
@@ -147,6 +151,7 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
       const updatedImages = images.filter((_, imgIndex) => imgIndex !== index);
       setImages(updatedImages);
     }
+    console.log(errors);
 
     return (
       <div className="App">
@@ -188,9 +193,13 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
           <IoClose className="close" size={24} onClick={handleClose2} />
           <div className="left-modal" style={{ gap: "0px" }}>
             <h3>Ajouter des images</h3>
-            <div className="file2" style={{ marginBottom: "20px" }}>
+            <div
+              className="file2"
+              style={{ marginBottom: !imgError && "20px" }}
+            >
               <ImageUpload />
             </div>
+            {imgError && <p className="pp">{imgError}</p>}
             <div className="categorie">
               {categories.map((categorie, index) => (
                 <div
