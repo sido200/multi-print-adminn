@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { createPub, getpub, deletePubs } from "@/app/services/pub";
 import Swal from "sweetalert2";
 import { HiDotsVertical } from "react-icons/hi";
+import { BASE_API_URL } from "@/config/api";
 
 const style = {
   position: "absolute",
