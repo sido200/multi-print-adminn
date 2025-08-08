@@ -14,6 +14,7 @@ import { updateProduct } from "@/app/services/produits";
 import Swal from "sweetalert2";
 import { CiCirclePlus } from "react-icons/ci";
 import SwiperProduct from "../SwiperAddProduct/SwiperAddProduct";
+import { BASE_API_URL } from "@/config/api";
 
 const style = {
   position: "absolute",
@@ -306,7 +307,8 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
         <HiDotsVertical />
       </div>
       <div className="img">
-        <img src={product.images[0]} alt="product" />
+        <img src={BASE_API_URL.replace("/api/v1", "/images/") + product?.images[0].split("/")[product?.images[0].split("/").length - 1]} alt="product" />
+
       </div>
       <h3>{product.titlefr}</h3>
       <h4>Type</h4>
