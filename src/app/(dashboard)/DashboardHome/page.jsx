@@ -286,7 +286,8 @@ export default function page() {
                   </button>
                 </div>
                 <div className="right-slide">
-                  <img src={pub.image} alt="produit" />
+                  <img src={BASE_API_URL.replace("/api/v1", "/images/") + pub.image.split("/")[pub.image.split("/").length - 1]} alt="produit" />
+
                 </div>
                 <div className="action-btn">
                   <button
