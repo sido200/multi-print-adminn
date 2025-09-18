@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import { CiCirclePlus } from "react-icons/ci";
 import SwiperProduct from "../SwiperAddProduct/SwiperAddProduct";
 import { BASE_API_URL } from "@/config/api";
+import { fixLink } from "@/utils/utils";
 
 const style = {
   position: "absolute",
@@ -176,7 +177,7 @@ export default function CardProduct({ product, deleteProduct, fatchProduct }) {
           onImageChange={setActiveImage}
           onDeleteImage={handleDeleteImage}
           setImages={setImages}
-          previews={images.map((img) => img.url)}
+          previews={images.map((img) => fixLink(img.url))}
         />
       </div>
     );
